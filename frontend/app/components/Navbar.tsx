@@ -6,6 +6,7 @@ export default function Navbar(){
             <nav className="flex flex-nowrap justify-center gap-20">
                 <Link href='/'><button className='bg-white p-4 rounded-2xl text-black'>Home</button></Link>
                 <Link href='/pages/login'><button className="bg-white p-4 rounded-2xl text-black">Login/Signup</button></Link>
+                <Link href="/pages/editProfile"><button className="p-4 bg-white rounded-2xl text-black">Edit Profile</button></Link>
             </nav>
         </div>
 
