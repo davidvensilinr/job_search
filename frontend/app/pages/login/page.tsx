@@ -1,13 +1,15 @@
 "use client"
+import Navbar from "@/app/components/Navbar"
 export default function Login(){
     const sub =()=>{
         alert("Success");
     }
     return(
         <div>
+            <Navbar/>
             <h1 className="text-center text-5xl">Login</h1>
             <form onSubmit={sub}>
-                <h1 className="w-full text-3xl">Email</h1>
+                <h1 className="w-full text-3xl">Email :</h1>
                 <input className="w-full p-4 bg-white text-black"
                 required  
                 placeholder="Enter your email address"
