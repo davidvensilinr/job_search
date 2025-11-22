@@ -1,4 +1,12 @@
 import prisma from "@/lib/prisma";
 export default async function GET(){
-const jobs= await prisma.jobs.findMany();
+try{
+    const jobs=prisma.jobs.findMany();
+    console.log(jobs);
+    return Response.json(jobs);
+}
+catch(error){
+    console.error("Error fetching contents: ",error);
+    return Response.json({error:"failed"},{status:500});
+}
 }
