@@ -1,0 +1,18 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+
+model jobs {
+  id                  Int     @id @default(autoincrement())
+  company_name        String  @db.VarChar(255)
+  job_role            String  @db.VarChar(255)
+  company_description String  @db.VarChar(500)
+  job_description     String  @db.VarChar(500)
+  lpa                 Decimal @db.Decimal(10, 2)
+}
