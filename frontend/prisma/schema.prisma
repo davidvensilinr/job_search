@@ -9,12 +9,10 @@ datasource db {
 }
 
 model jobs {
-  id                  Int      @id @default(autoincrement())
-  company_name        String   @db.VarChar(255)
-  job_role            String   @db.VarChar(255)
-  company_description String   @db.VarChar(500)
-  job_description     String   @db.VarChar(500)
-  lpa                 Decimal  @db.Decimal(10, 2)
-  skills              String[]
-  logo                String?
+  id                Int      @id @default(autoincrement())
+  company_name      String   @db.VarChar(255)
+  lpa               Decimal  @db.Decimal(10, 2)
+  skills            String?
+  logo              String?
+  experience_needed Decimal? @db.Decimal(10, 2)
 }

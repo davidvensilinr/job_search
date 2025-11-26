@@ -10,7 +10,7 @@ export default async function Home() {
     <div>
       <Navbar />
 
-      <div className="flex flex-wrap gap-4 p-4">
+      <div className="flex flex-wrap justify-start gap-4 p-4 w-full">
         {jobs.length === 0 && (
           <p className="text-gray-500">No jobs found.</p>
         )}
@@ -20,10 +20,9 @@ export default async function Home() {
             key={job.id}
             logo={job.logo}
             company_name={job.company_name}
-            job_role={job.job_role}
+            skills={job.skills}
+            experience_needed={job.experience_needed}
             lpa={job.lpa}
-            company_description={job.company_description}
-            job_description={job.job_description}
           />
         ))}
       </div>
