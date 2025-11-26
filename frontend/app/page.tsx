@@ -18,6 +18,7 @@ export default async function Home() {
         {jobs.map((job: any) => (
           <CompanyCard
             key={job.id}
+            logo={job.logo}
             company_name={job.company_name}
             job_role={job.job_role}
             lpa={job.lpa}

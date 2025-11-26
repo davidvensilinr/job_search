@@ -7,9 +7,11 @@ interface CompanyCardProps {
   lpa: number | string;
   company_description: string;
   job_description: string;
+  logo:string;
 }
 
 export default function CompanyCard({
+  logo,
   company_name,
   job_role,
   lpa,
@@ -18,7 +20,7 @@ export default function CompanyCard({
 }: CompanyCardProps) {
   return (
     <div className="bg-white rounded-2xl w-1/4 text-black p-4">
-      <Image src={'/assets/image.png'} alt={company_name} width={100} height={100} />
+      <Image src={logo} alt={company_name} width={100} height={100} />
       <h3 className='font-bold'>{company_name}</h3>
       <h3 className='font-bold'>{company_description}</h3>
       <p className="text-gray-600">{job_role}</p>
