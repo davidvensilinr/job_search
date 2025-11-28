@@ -1,15 +1,32 @@
 "use client"
 import Navbar from "@/app/components/Navbar"
 import Link from 'next/link'
+import {useState} from "react";
 export default function Login(){
-    const sub =()=>{
-        alert("Success");
-    }
+    const [email,setEmail]=useState("");
+    const [password,setPassword]=useState("");
+    const login = async(e:React.FormEvent<HTMLFormElement>)=>{
+        e.preventDefault();
+        try{
+            const res = await fetch(
+                "/api/auth/login",
+                {
+                    method:"POST",
+                    body:JSON.stringify({email,password}),
+                }
+            );
+            const data = res.json();
+            console.log(data);
+        }
+        catch(error){
+            console.log(error);
+        }
+    } 
     return(
         <div>
             <Navbar/>
             <h1 className="text-center text-5xl">Login</h1>
-            <form onSubmit={sub}>
+            <form>
                 <h1 className="w-full text-3xl">Email :</h1>
                 <input className="w-full p-4 bg-white text-black"
                 required  
