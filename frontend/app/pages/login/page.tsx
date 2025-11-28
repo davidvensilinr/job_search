@@ -26,13 +26,13 @@ export default function Login(){
         <div>
             <Navbar/>
             <h1 className="text-center text-5xl">Login</h1>
-            <form>
+            <form onSubmit={(e)=>login(e)}>
                 <h1 className="w-full text-3xl">Email :</h1>
                 <input className="w-full p-4 bg-white text-black"
                 required  
                 placeholder="Enter your email address"
                 type="email"
-                onChange={(e)=>(setEmail(e.target.value))}
+                onChange={(e)=>setEmail(e.target.value)}
                 />
                 <label className="text-3xl">Password :</label>
                 <input
