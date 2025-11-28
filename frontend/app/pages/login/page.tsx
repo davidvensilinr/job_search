@@ -32,6 +32,7 @@ export default function Login(){
                 required  
                 placeholder="Enter your email address"
                 type="email"
+                onChange={(e)=>(setEmail(e.target.value))}
                 />
                 <label className="text-3xl">Password :</label>
                 <input
@@ -39,6 +40,7 @@ export default function Login(){
                 required
                 placeholder="Enter your password"
                 type="password"
+                onChange={(e)=>setPassword(e.target.value)}
                 />
                 <button type="submit" className="w-full bg-amber-200 text-black hover:bg-blue-400 p-2 text-2xl">Login</button>
                 <button className="w-full bg-amber-200 text-black hover:bg-blue-400 p-2 text-2xl mt-1">Continue with Google</button>
