@@ -116,3 +116,21 @@ knn_model.fit(knn_vectors)
 import joblib
 
 joblib.dump(knn_model, "knn_model.pkl")
+user_skills=["python","sql","c++"]
+user_experience=3
+user_skills_joined=" ".join(user_skills)
+user_skill_vector=skill_vectorizer.transform([user_skills_joined])
+user_exp_norm=exp_scaler.transform([[user_experience]])
+user_vector=np.hstack((user_skill_vector.toarray(),user_exp_norm))
+distances,indices=knn_model.kneighbors(user_vector)
+print("Recommended Jobs")
+for idx in indices[0]:
+    company_hash = output_hash_map[idx]["company_hash"]
+    lpa = output_hash_map[idx]["lpa"]
+    company_name = company_reverse_map[company_hash]
+
+    print(f"Company: {company_name}")
+    print(f"LPA: {lpa}")
+    print(f"Skills: {df.loc[idx, 'skills_clean']}")
+    print(f"Experience Needed: {df.loc[idx, 'experience_needed']} years")
+    print("-" * 40)
