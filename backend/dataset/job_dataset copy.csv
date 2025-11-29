@@ -1,5 +1,5 @@
 company_name,lpa,skills,experience_needed,logo
-Netflix,28.3,ARRAY['Python', 'C++', 'SQL'],2
+Netflix,28.3,"Python,C++,SQL",2
 Microsoft,12.0,"Docker, SQL",3
 Amazon,34.2,"HTML, Django, Node.js",4
 Meta,33.3,"Node.js, Deep Learning, Python, Java",3

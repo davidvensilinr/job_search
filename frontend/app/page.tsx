@@ -1,9 +1,18 @@
 import Navbar from "./components/Navbar";
 import CompanyCard from "./components/CompanyCard";
 import { getJobs } from "@/lib/getJob";
+import { supabaseServer } from "@/lib/supabaseServer";
 
-export default async function Home() {
-  // Fetch jobs from helper function
+export default async function Dashboard() {
+  const supabase = supabaseServer();
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  const user = session?.user;
+
+ 
   const jobs = await getJobs();
 
   return (
