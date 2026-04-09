@@ -11,25 +11,17 @@ export default function Navbar() {
   const router = useRouter();
 
   useEffect(() => {
-    // Check active sessions and set the user
-    const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
-      setLoading(false);
-    };
-
-    getSession();
-
-    // Listen for changes in auth state
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event: string, session: Session | null) => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       setLoading(false);
     });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [supabase.auth]);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_: string, session: Session | null) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+    return () => subscription.unsubscribe();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -37,51 +29,59 @@ export default function Navbar() {
     router.refresh();
   };
 
-  if (loading) {
-    return (
-      <div className="p-4 bg-amber-300 mb-4">
-        <div className="flex justify-center">Loading...</div>
-      </div>
-    );
-  }
-
   return (
-    <>
-      <h1 className="text-center text-5xl font-bold font-sans p-3">Job Search</h1>
-      <div className="p-4 bg-amber-300 mb-4">
-        <nav className="flex flex-nowrap justify-center gap-4">
-          <Link href='/'><button className='bg-white p-4 rounded-2xl text-black hover:bg-teal-300'>Home</button></Link>
-          
-          {user ? (
-            <div className="flex items-center gap-4">
-              <span className="bg-white px-4 py-2 rounded-2xl text-black font-medium">
-                {user.email}
-              </span>
-              <Link href="/pages/editProfile">
-                <button className="p-2 bg-white rounded-2xl text-black hover:bg-teal-300">
-                  Edit Profile
-                </button>
-              </Link>
-              <button 
-                onClick={handleLogout}
-                className="p-2 bg-red-500 rounded-2xl text-white hover:bg-red-600"
-              >
-                Logout
-              </button>
-            </div>
-          ) : (
-            <Link href='/pages/login'>
-              <button className="bg-white p-4 rounded-2xl text-black hover:bg-teal-300">
-                Login/Signup
-              </button>
-            </Link>
+    <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
+      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <Link href="/" className="text-2xl font-bold text-indigo-600 tracking-tight">
+          Job Search
+        </Link>
+
+        <nav className="flex items-center gap-3">
+          <Link href="/">
+            <button className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">
+              Browse Jobs
+            </button>
+          </Link>
+
+          {!loading && (
+            <>
+              {user ? (
+                <>
+                  <Link href="/pages/recommendation">
+                    <button className="px-4 py-2 text-sm font-medium bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                      Smart Search
+                    </button>
+                  </Link>
+                  <Link href="/pages/editProfile">
+                    <button className="px-4 py-2 text-sm font-medium text-slate-600 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+                      Profile
+                    </button>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="px-4 py-2 text-sm font-medium text-red-500 hover:text-red-600 transition-colors"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link href="/pages/login">
+                    <button className="px-4 py-2 text-sm font-medium text-slate-600 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+                      Login
+                    </button>
+                  </Link>
+                  <Link href="/pages/signup">
+                    <button className="px-4 py-2 text-sm font-medium bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                      Sign Up
+                    </button>
+                  </Link>
+                </>
+              )}
+            </>
           )}
-          
-          <button className="bg-green-400 rounded-2xl p-4 text-black hover:bg-teal-300">
-            Smart Recommendation
-          </button>
         </nav>
       </div>
-    </>
+    </header>
   );
 }

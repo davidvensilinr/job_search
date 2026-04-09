@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: job-search-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: FRONTEND_URL
+        value: https://your-app.vercel.app   # update this after Vercel deploy

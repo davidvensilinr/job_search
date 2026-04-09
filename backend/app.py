@@ -1,5 +1,7 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import os
 import joblib
 import pandas as pd
 import numpy as np
@@ -68,9 +70,24 @@ knn_model = joblib.load("knn_model.pkl")
 # -------------------------------------------------
 app = FastAPI(title="Job Recommendation API")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "https://*.vercel.app",          # all Vercel preview deployments
+        os.getenv("FRONTEND_URL", ""),   # set this on Render to your production URL
+    ],
+    allow_methods=["POST", "GET"],
+    allow_headers=["Content-Type"],
+)
+
 class JobRequest(BaseModel):
     skills: str
     experience: float
+
+@app.get("/")
+def health():
+    return {"status": "ok"}
 
 # -------------------------------------------------
 # Prediction Endpoint
@@ -98,10 +115,12 @@ def recommend_jobs(req: JobRequest):
         company_hash = output_hash_map[idx]["company_hash"]
         lpa = output_hash_map[idx]["lpa"]
         company_name = company_reverse_map[company_hash]
-
         results.append({
+            "dataset_index": int(idx),
             "company": company_name,
-            "lpa": lpa
+            "lpa": float(lpa),
+            "skills": df.loc[idx, "skills"],
+            "experience_needed": float(df.loc[idx, "experience_needed"]),
         })
 
     return {
