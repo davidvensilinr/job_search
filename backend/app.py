@@ -72,11 +72,7 @@ app = FastAPI(title="Job Recommendation API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "https://*.vercel.app",          # all Vercel preview deployments
-        os.getenv("FRONTEND_URL", ""),   # set this on Render to your production URL
-    ],
+    allow_origins=["*"],
     allow_methods=["POST", "GET"],
     allow_headers=["Content-Type"],
 )

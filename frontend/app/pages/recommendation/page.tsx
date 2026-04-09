@@ -45,7 +45,7 @@ export default function Recommendation() {
     setLoading(true); setError(null); setSearched(true); setJobs([]);
 
     try {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8000";
+      const backendUrl = (process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8000").replace(/\/$/, "");
       const mlRes = await fetch(`${backendUrl}/recommend`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
