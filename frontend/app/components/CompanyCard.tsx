@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react';
+import Image from 'next/image';
 
 interface CompanyCardProps {
   company_name: string;
@@ -9,21 +10,34 @@ interface CompanyCardProps {
   logo?: string;
 }
 
-export default function CompanyCard({ company_name, skills, experience_needed, lpa }: CompanyCardProps) {
+export default function CompanyCard({ company_name, skills, experience_needed, lpa, logo }: CompanyCardProps) {
   const [applied, setApplied] = useState(false);
-  // Generate a consistent color from company name
-  const colors = ['bg-indigo-100 text-indigo-700', 'bg-emerald-100 text-emerald-700', 'bg-amber-100 text-amber-700', 'bg-rose-100 text-rose-700', 'bg-violet-100 text-violet-700', 'bg-cyan-100 text-cyan-700'];
-  const colorIndex = company_name.charCodeAt(0) % colors.length;
-  const avatarColor = colors[colorIndex];
+  const [imgError, setImgError] = useState(false);
 
+  const colors = ['bg-indigo-100 text-indigo-700', 'bg-emerald-100 text-emerald-700', 'bg-amber-100 text-amber-700', 'bg-rose-100 text-rose-700', 'bg-violet-100 text-violet-700', 'bg-cyan-100 text-cyan-700'];
+  const avatarColor = colors[company_name.charCodeAt(0) % colors.length];
   const skillList = skills?.split(',').map(s => s.trim()).filter(Boolean) ?? [];
+  const showImage = logo && !imgError;
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 p-5 flex flex-col gap-3 hover:shadow-md transition-shadow w-full sm:w-[calc(50%-8px)] lg:w-[calc(33.33%-11px)]">
       <div className="flex items-center gap-3">
-        <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg ${avatarColor}`}>
-          {company_name.charAt(0)}
-        </div>
+        {showImage ? (
+          <div className="w-12 h-12 rounded-xl overflow-hidden flex items-center justify-center bg-slate-50 border border-slate-100">
+            <Image
+              src={logo!}
+              alt={company_name}
+              width={48}
+              height={48}
+              className="object-contain w-full h-full"
+              onError={() => setImgError(true)}
+            />
+          </div>
+        ) : (
+          <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg ${avatarColor}`}>
+            {company_name.charAt(0)}
+          </div>
+        )}
         <div>
           <h3 className="font-semibold text-slate-800 text-base">{company_name}</h3>
           <p className="text-sm text-slate-500">{experience_needed} yrs experience</p>
